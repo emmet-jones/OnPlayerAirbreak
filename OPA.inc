@@ -10,6 +10,12 @@
 	Created by Emmet on Wednesday, November 6, 2013.
 */
 
+#if defined ac_OnPlayerAirbreak
+	#endinput
+#else
+	#define ac_OnPlayerAirbreak
+#endif
+
 #if !defined MAX_FLAGGED_DETECTIONS
 	#define MAX_FLAGGED_DETECTIONS 3
 #endif
