@@ -115,9 +115,12 @@ public OnPlayerUpdate(playerid)
 {
 	if (!IsPlayerNPC(playerid))
 	{
-		if (gettime() > s_AirbreakUpdateTick[playerid])
+		static realTime;
+		realTime = gettime();
+		if (realTime > s_AirbreakUpdateTick[playerid])
 		{
-		    if (GetPlayerSurfingVehicleID(playerid) != INVALID_VEHICLE_ID || GetPlayerSurfingObjectID(playerid) != INVALID_OBJECT_ID)
+		    if (GetPlayerSurfingVehicleID(playerid) != INVALID_VEHICLE_ID || GetPlayerSurfingObjectID(playerid) != INVALID_OBJECT_ID
+		    	|| GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_ENTER_VEHICLE || GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_EXIT_VEHICLE)
 		    {
 		        s_AirbreakUpdateTick[playerid] = gettime();
 
@@ -181,6 +184,16 @@ public OnPlayerUpdate(playerid)
 				{
 			        GetPlayerPos(playerid, s_AirbreakLastCoords[playerid][0], s_AirbreakLastCoords[playerid][1], s_AirbreakLastCoords[playerid][2]);
 				}
+			}
+		}
+		else if(realTime == s_AirbreakUpdateTick[playerid]) {
+			if (IsPlayerInAnyVehicle(playerid))
+			{
+			    GetVehiclePos(GetPlayerVehicleID(playerid), s_AirbreakLastCoords[playerid][0], s_AirbreakLastCoords[playerid][1], s_AirbreakLastCoords[playerid][2]);
+			}
+			else
+			{
+		        GetPlayerPos(playerid, s_AirbreakLastCoords[playerid][0], s_AirbreakLastCoords[playerid][1], s_AirbreakLastCoords[playerid][2]);
 			}
 		}
 	}
