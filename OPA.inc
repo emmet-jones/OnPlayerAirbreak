@@ -364,3 +364,4 @@ stock AB_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 #if defined AB_OnPlayerDeath
 	forward AB_OnPlayerDeath(playerid, killerid, reason);
 #endif
+ 
