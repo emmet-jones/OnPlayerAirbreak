@@ -113,6 +113,8 @@ public OnPlayerConnect(playerid)
 public OnPlayerSpawn(playerid)
 {
     s_AirbreakDetectImmunity[playerid] = gettime() + 3;
+    
+    GetPlayerPos(playerid, s_AirbreakLastCoords[playerid][0], s_AirbreakLastCoords[playerid][1], s_AirbreakLastCoords[playerid][2]);
 
 	#if defined AB_OnPlayerSpawn
 	    return AB_OnPlayerSpawn(playerid);
@@ -198,11 +200,17 @@ stock AB_SetSpawnInfo(playerid, team, skin, Float:x, Float:y, Float:z, Float:rot
 
 	if(ret)
 	{
-	    s_AirbreakDetectImmunity[playerid] = gettime() + 3;
-
-		s_AirbreakLastCoords[playerid][0] = x;
-		s_AirbreakLastCoords[playerid][1] = y;
-		s_AirbreakLastCoords[playerid][2] = z;
+	    switch(GetPlayerState(playerid))
+		{
+			case PLAYER_STATE_NONE, PLAYER_STATE_WASTED:
+			{
+			    s_AirbreakDetectImmunity[playerid] = gettime() + 3;
+			
+				s_AirbreakLastCoords[playerid][0] = x;
+				s_AirbreakLastCoords[playerid][1] = y;
+				s_AirbreakLastCoords[playerid][2] = z;
+			}
+		}
 	}
 
 	return ret;
@@ -364,4 +372,3 @@ stock AB_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 #if defined AB_OnPlayerDeath
 	forward AB_OnPlayerDeath(playerid, killerid, reason);
 #endif
- 
